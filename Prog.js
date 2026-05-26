@@ -542,4 +542,3 @@ jumpImage.onload = onImageLoad
 jumpLeftImage.onload = onImageLoad
 monsterImage.onload = onImageLoad
 coinImage.onload = onImageLoad
-
