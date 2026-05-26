@@ -10,5 +10,45 @@
     <audio id="ljud" src="img/mafia game music 1.mp4" autoplay loop></audio>
     <canvas></canvas>
     <script src="Prog.js" type="module"></script>  
+
+    <div id="chat" style="position:fixed; bottom:10px; right:10px; width:250px; background:rgba(0,0,0,0.7); color:white; padding:10px; border-radius:8px;">
+    <div id="chatMessages" style="height:150px; overflow-y:auto; margin-bottom:8px; font-size:13px;"></div>
+    <input id="chatInput" type="text" placeholder="Skriv meddelande..." 
+        style="width:100%; padding:4px; box-sizing:border-box;"
+        onkeydown="handleChatKey(event)">
+    <div id="onlineCount" style="margin-top:5px; font-size:12px;">Online: 0</div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    //inte i prog.js för jag kunde inte få enter att funka då. 
+<script>
+    const socket = io()
+
+    // Uppdatera chatten när spelare skickar meddelanden
+    socket.on('chatMessage', ({ name, text }) => {
+        const div = document.getElementById('chatMessages')
+        div.innerHTML += `<b>${name}:</b> ${text}<br>`
+        div.scrollTop = div.scrollHeight
+    })
+
+    socket.on('playerCount', (count) => {
+        document.getElementById('onlineCount').textContent = `Online: ${count}`
+    })
+   // skicka med enter
+    function handleChatKey(event) {
+        event.stopPropagation()
+        if (event.key === 'Enter') {
+            const input = document.getElementById('chatInput')
+            if (input.value.trim() === '') return
+            socket.emit('chatMessage', { name: 'Spelare1', text: input.value })
+            input.value = ''
+        }
+    }
+</script>
+
+<script src="Prog.js"></script>
+
+
 </body>
 </html>

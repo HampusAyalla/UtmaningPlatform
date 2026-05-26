@@ -13,7 +13,7 @@ const io = new Server(server, {
 const PORT = 3000
  
 //filer från spelet
-app.use(express.static('.'))
+app.use(express.static('../'))
  
 // Spara Highscore
 let highscores = []
@@ -40,9 +40,8 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Spelare kopplade från:', socket.id)
     })
-})
 
-socket.on('chatMessage', ({ name, text }) => {
+    socket.on('chatMessage', ({ name, text }) => {
     if (!text || text.trim() === '') return
     const msg = {
         name: name || 'Anonym',
@@ -50,6 +49,8 @@ socket.on('chatMessage', ({ name, text }) => {
     }
     io.emit('chatMessage', msg)
     console.log(`Chatt [${msg.name}]: ${msg.text}`)
+})
+
 })
 
 server.listen(PORT, () => {
