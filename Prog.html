@@ -21,11 +21,12 @@
 
     <script src="/socket.io/socket.io.js"></script>
 
-    //inte i prog.js för jag kunde inte få enter att funka då. 
+    <!--här för det inte funak i prog.js-->
 <script>
     const socket = io()
 
-    // Uppdatera chatten när spelare skickar meddelanden
+    <!-- Uppdatera chatten när spelare skickar meddelande-->
+
     socket.on('chatMessage', ({ name, text }) => {
         const div = document.getElementById('chatMessages')
         div.innerHTML += `<b>${name}:</b> ${text}<br>`
